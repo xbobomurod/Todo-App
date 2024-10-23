@@ -1,0 +1,120 @@
+/* global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 42px;
+}
+p {
+  font-size: 18px;
+}
+
+/* todo-container */
+.todo-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+/* header */
+header {
+  padding: 50px 0;
+}
+#logo {
+  margin: 5px 0;
+}
+#logo-text {
+  margin: 20px 0;
+  background: #ff33ff33;
+  display: inline-block;
+  padding: 4px;
+}
+.add-task {
+  display: flex;
+  justify-content: end;
+}
+
+#add-task-input {
+  margin: 0 10px;
+  padding: 5px;
+  outline: none;
+  font-size: 18px;
+  width: 45%;
+  border: #7ad8d1 1.5px solid;
+  border-radius: 7px;
+}
+
+.add-task-btn {
+  display: flex;
+  justify-content: end;
+  border: 1.5px solid #7ad8d1;
+  color: #7ad8d1;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 7px;
+}
+.add-task-btn:hover {
+  background: #7ad8d1;
+  color: #fff;
+}
+.add-task-btn:active {
+  background: #0ed1c4;
+}
+
+/* daily task */
+.daily-task {
+  border-bottom: 2px solid #000;
+  margin: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+/* todo tr */
+.todo {
+  border-bottom: 1.5px solid #000;
+  margin: 10px;
+  padding: 10px 0;
+  align-items: center;
+}
+.status-btn {
+  border: 2px solid #909090;
+  background: none;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: #909090;
+}
+.edit-btn{
+  border: 2px solid #7ad8d1;
+  background: none;
+  padding: 10px;
+  color: #7ad8d1;
+}
+.remove-btn{
+  border: 2px solid #909090;
+  color: #909090;
+  background: none;
+  padding: 10px;
+}
+.number{
+  text-align-last: left;
+  padding: 0;
+  width: 10%;
+}
+.task-number{
+  text-align: left;
+padding: 0;
+}
+td, th{
+  text-align: center;
+  padding: 15px 50px;
+  width: 60%;
+}
