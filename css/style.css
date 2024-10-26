@@ -36,6 +36,9 @@ th {
   font-size: 22px;
   text-align: center;
 }
+button {
+  cursor: pointer;
+}
 
 /* todo-container */
 .todo-container {
@@ -78,8 +81,6 @@ header {
   background: #fff;
   color: #7ad8d1;
   border-radius: 7px;
-  display: flex;
-  justify-content: end;
   padding: 10px 14px;
 }
 .add-task-btn:hover {
@@ -90,19 +91,21 @@ header {
   background: #0ed1c4;
 }
 /* !Table */
-.table {
+.overflow {
   overflow-x: auto;
 }
 /** daily task */
 .daily-task {
   margin: 10px;
-  padding-bottom: 10px;
 }
 
 /**todo*/
 .todo {
   margin: 10px;
-  width: 100%;
+}
+
+th:nth-child(2) {
+  min-width: 450px;
 }
 
 .status-btn {
@@ -117,15 +120,15 @@ header {
   color: #000;
 }
 .status-btn:active {
-  border: none;
+  border-color: transparent;
   background: #000;
   color: #fff;
 }
 .edit-btn {
   border: 2px solid #7ad8d1;
-  background: none;
   color: #7ad8d1;
   padding: 5px;
+  background-color: transparent;
 }
 .edit-btn:hover {
   border: 2px solid #9be623;
@@ -134,7 +137,7 @@ header {
 .edit-btn:active {
   background: #9be623;
   color: #fff;
-  border: none;
+  border-color: transparent;
 }
 
 .remove-btn {
@@ -150,16 +153,19 @@ header {
 .remove-btn:active {
   background: red;
   color: #fff;
-  border: none;
+  border-color: transparent;
 }
 
-.number {
-  text-align-last: left;
-  padding: 0;
+.p-0 {
+  padding: 10px;
 }
-
-.task-number {
-  text-align: left;
-}
-
-
+/* tablet da 
+task-name
+300-400px orasida  */
+/* mobile da 
+task-name
+200-350px orasida
+widht 90% */
+/*
+  white-space: nowrap;
+*/
