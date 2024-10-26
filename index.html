@@ -23,12 +23,13 @@
       </header>
       <!-- Add task btn -->
       <div class="add-task">
-        <input
-          type="text"
-          id="add-task-input"
-          placeholder="Write your task..."
-        />
-        <button type="submit" class="add-task-btn">Add Task</button>
+        <form action="#" id="form">
+          <input
+            type="text"
+            id="add-task-input"
+            placeholder="Write your task...">
+          <button type="submit" class="add-task-btn">Add Task</button>
+        </form>
       </div>
 
       <!-- tasks table -->
@@ -45,21 +46,6 @@
           </thead>
 
           <tbody class="todo">
-            <tr>
-              <td class="task-number">1</td>
-              <td class="task-name"></td>
-              <td><button type="button" class="status-btn">Todo</button></td>
-              <td>
-                <button type="button" class="edit-btn">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-              </td>
-              <td>
-                <button class="remove-btn" type="button">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </section>
