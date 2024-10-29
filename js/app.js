@@ -1,6 +1,10 @@
 const form = document.querySelector("#form");
 const taskInput = document.querySelector("#add-task-input");
 const tbody = document.querySelector(".todo");
+const modal = document.querySelector(".modal-edit");
+const modalInput = document.querySelector(".modal-input");
+const closeBtn = document.querySelector(".close-btn");
+const doneBtn = document.querySelector(".done-btn");
 
 // Ma'lumotlarni saqlash uchun bo'sh massiv yaratamiz
 const tasksArray = [];
@@ -40,7 +44,41 @@ function displayTask(event) {
 
     // Input maydonini tozalaymiz
     taskInput.value = "";
+    edit();
   } else {
     alert("Please enter a task name!");
   }
+}
+
+// Todo ichidagi mattni tahrirlash uchun funksiya
+function edit() {
+  const editBtns = document.querySelectorAll(".edit-btn");
+  editBtns.forEach((editBtn, index) => {
+    editBtn.addEventListener("click", () => {
+      modal.classList.add("active");
+      modalInput.value = tasksArray[index].name;
+
+      // Done task
+      doneBtn.onclick = function (event) {
+        event.preventDefault();
+
+        modal.classList.remove("active");
+        const updatedTask = modalInput.value.trim();
+        if (updatedTask) {
+          tasksArray[index].name = updatedTask;
+
+          // update task name in HTML
+          const taskName = tbody.querySelectorAll(".task-name")[index];
+          taskName.textContent = updatedTask;
+        } else {
+          alert("Please enter a task name!");
+        }
+      };
+
+      // close modal
+      closeBtn.addEventListener("click", () => {
+        modal.classList.remove('active');
+      })
+    });
+  });
 }

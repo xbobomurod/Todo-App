@@ -45,6 +45,7 @@ button {
   width: 60%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* * header */
@@ -158,6 +159,85 @@ th:nth-child(2) {
 .p-0 {
   padding: 10px;
 }
+
+/* edit modal */
+.modal-edit {
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 0;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backdrop-filter: blur(1px);
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-edit.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  width: 50%;
+  background-color: #7ad8d1;
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 15px 1px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-size: 28px;
+  color: #fff;
+  transition: color .3s ease;
+}
+
+.close-btn:hover {
+  color: #ff595e;
+}
+
+.modal-body {
+  margin-top: 30px;
+}
+
+.modal-body form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-input {
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.done-btn {
+  padding: 5px;
+  border: 0;
+  background-color: transparent;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.done-btn:hover {
+  color: #256932;
+}
+
 /* tablet da 
 task-name
 300-400px orasida  */
