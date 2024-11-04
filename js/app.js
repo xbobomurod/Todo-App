@@ -6,7 +6,7 @@ const modalInput = document.querySelector(".modal-input");
 const closeBtn = document.querySelector(".close-btn");
 const doneBtn = document.querySelector(".done-btn");
 
-// Ma'lumotlarni saqlash uchun bo'sh massiv yaratamiz
+// Ma'lumotlarni saqlash uchun bo'sh massiv
 const tasksArray = [];
 
 form.addEventListener("submit", displayTask);
@@ -17,40 +17,36 @@ function displayTask(event) {
   const taskName = taskInput.value.trim();
 
   if (taskName) {
-    // Task tartib raqamini aniqlaymiz
-    const TaskCount = tasksArray.length + 1;
-
-    // Yangi task ma'lumotlarini arrayga qo'shamiz
     const taskData = {
-      id: TaskCount,
+      id: tasksArray.length + 1,
       name: taskName,
       status: "Todo",
     };
     tasksArray.push(taskData);
 
-    // Yangi <tr> elementini yaratamiz
     const newRow = document.createElement("tr");
+    newRow.setAttribute("data-index", tasksArray.length - 1);
 
-    newRow.innerHTML = `
-        <td class="task-number">${taskData.id}</td>
-        <td class="task-name">${taskData.name}</td>
-        <td><button type="button" class="status-btn">${taskData.status}</button></td>
-        <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>
-        <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>     
-    `;
+    newRow.innerHTML = `  
+            <td class="task-number">${taskData.id}</td>  
+            <td class="task-name">${taskData.name}</td>  
+            <td><button type="button" class="status-btn">${taskData.status}</button></td>  
+            <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
+            <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
+        `;
 
-    // <tbody> elementiga yangi qatorni qo'shamiz
     tbody.appendChild(newRow);
 
-    // Input maydonini tozalaymiz
     taskInput.value = "";
     edit();
+    addRemove();
+    // Har safar qo'shganda indekslarni yangilang.
+    updateIndices();
   } else {
     alert("Please enter a task name!");
   }
 }
 
-// Todo ichidagi mattni tahrirlash uchun funksiya
 function edit() {
   const editBtns = document.querySelectorAll(".edit-btn");
   editBtns.forEach((editBtn, index) => {
@@ -58,16 +54,12 @@ function edit() {
       modal.classList.add("active");
       modalInput.value = tasksArray[index].name;
 
-      // Done task
       doneBtn.onclick = function (event) {
         event.preventDefault();
-
         modal.classList.remove("active");
         const updatedTask = modalInput.value.trim();
         if (updatedTask) {
           tasksArray[index].name = updatedTask;
-
-          // update task name in HTML
           const taskName = tbody.querySelectorAll(".task-name")[index];
           taskName.textContent = updatedTask;
         } else {
@@ -75,10 +67,36 @@ function edit() {
         }
       };
 
-      // close modal
-      closeBtn.addEventListener("click", () => {
-        modal.classList.remove('active');
-      })
+      closeBtn.onclick = () => {
+        modal.classList.remove("active");
+      };
     });
+  });
+}
+
+// Vazifani o'chirish
+function addRemove() {
+  const removeBtns = document.querySelectorAll(".remove-btn");
+
+  removeBtns.forEach((removeBtn) => {
+    removeBtn.addEventListener("click", (event) => {
+      const taskRow = event.target.closest("tr");
+
+      // Vazifani o'chirish
+      taskRow.remove();
+
+      // Yangi indekslarni yangilash
+      updateIndices();
+    });
+  });
+}
+
+// Indekslarni yangilash funksiya
+function updateIndices() {
+  const rows = document.querySelectorAll(".todo tr");
+  rows.forEach((row, i) => {
+    row.setAttribute("data-index", i);
+    // Raqamlarni yangilash
+    row.querySelector(".task-number").textContent = i + 1;
   });
 }
