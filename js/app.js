@@ -28,19 +28,22 @@ function displayTask(event) {
     newRow.setAttribute("data-index", tasksArray.length - 1);
 
     newRow.innerHTML = `  
-            <td class="task-number">${taskData.id}</td>  
-            <td class="task-name">${taskData.name}</td>  
-            <td><button type="button" class="status-btn">${taskData.status}</button></td>  
-            <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
-            <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
-        `;
+        <td class="task-number">${taskData.id}</td>  
+        <td class="task-name">${taskData.name}</td>  
+        <td><button type="button" class="status-btn">${taskData.status}</button></td>  
+        <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
+        <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
+    `;
 
     tbody.appendChild(newRow);
 
     taskInput.value = "";
-    edit();
+
+    // Har safar yangi vazifa qo'shilganda listenerlarni yangilash
     addRemove();
-    // Har safar qo'shganda indekslarni yangilang.
+    edit();
+
+    // Indekslarni yangilash
     updateIndices();
   } else {
     alert("Please enter a task name!");
@@ -50,7 +53,7 @@ function displayTask(event) {
 function edit() {
   const editBtns = document.querySelectorAll(".edit-btn");
   editBtns.forEach((editBtn, index) => {
-    editBtn.addEventListener("click", () => {
+    editBtn.onclick = () => {
       modal.classList.add("active");
       modalInput.value = tasksArray[index].name;
 
@@ -70,7 +73,7 @@ function edit() {
       closeBtn.onclick = () => {
         modal.classList.remove("active");
       };
-    });
+    };
   });
 }
 
@@ -79,15 +82,16 @@ function addRemove() {
   const removeBtns = document.querySelectorAll(".remove-btn");
 
   removeBtns.forEach((removeBtn) => {
-    removeBtn.addEventListener("click", (event) => {
+    removeBtn.onclick = (event) => {
       const taskRow = event.target.closest("tr");
-
-      // Vazifani o'chirish
+      const indexToRemove = parseInt(taskRow.getAttribute("data-index"), 10);
+      // Yozuvni massivdan olib tashlash
+      tasksArray.splice(indexToRemove, 1);
       taskRow.remove();
 
       // Yangi indekslarni yangilash
       updateIndices();
-    });
+    };
   });
 }
 
