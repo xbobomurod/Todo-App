@@ -38,12 +38,9 @@ function displayTask(event) {
     tbody.appendChild(newRow);
 
     taskInput.value = "";
-
-    // Har safar yangi vazifa qo'shilganda listenerlarni yangilash
-    addRemove();
     edit();
-
-    // Indekslarni yangilash
+    addRemove();
+    // Har safar qo'shganda indekslarni yangilang.
     updateIndices();
   } else {
     alert("Please enter a task name!");
@@ -53,7 +50,7 @@ function displayTask(event) {
 function edit() {
   const editBtns = document.querySelectorAll(".edit-btn");
   editBtns.forEach((editBtn, index) => {
-    editBtn.onclick = () => {
+    editBtn.addEventListener("click", () => {
       modal.classList.add("active");
       modalInput.value = tasksArray[index].name;
 
@@ -79,7 +76,7 @@ function edit() {
       closeBtn.onclick = () => {
         modal.classList.remove("active");
       };
-    };
+    });
   });
 }
 
@@ -88,16 +85,15 @@ function addRemove() {
   const removeBtns = document.querySelectorAll(".remove-btn");
 
   removeBtns.forEach((removeBtn) => {
-    removeBtn.onclick = (event) => {
+    removeBtn.addEventListener("click", (event) => {
       const taskRow = event.target.closest("tr");
-      const indexToRemove = parseInt(taskRow.getAttribute("data-index"), 10);
-      // Yozuvni massivdan olib tashlash
-      tasksArray.splice(indexToRemove, 1);
+
+      // Vazifani o'chirish
       taskRow.remove();
 
       // Yangi indekslarni yangilash
       updateIndices();
-    };
+    });
   });
 }
 
