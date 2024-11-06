@@ -28,12 +28,12 @@ function displayTask(event) {
     newRow.setAttribute("data-index", tasksArray.length - 1);
 
     newRow.innerHTML = `  
-        <td class="task-number">${taskData.id}</td>  
-        <td class="task-name">${taskData.name}</td>  
-        <td><button type="button" class="status-btn">${taskData.status}</button></td>  
-        <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
-        <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
-    `;
+            <td class="task-number">${taskData.id}</td>  
+            <td class="task-name">${taskData.name}</td>  
+            <td><button onclick="doneTask(event)" type="button" class="status-btn">${taskData.status}</button></td>  
+            <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
+            <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
+        `;
 
     tbody.appendChild(newRow);
 
@@ -65,6 +65,12 @@ function edit() {
           tasksArray[index].name = updatedTask;
           const taskName = tbody.querySelectorAll(".task-name")[index];
           taskName.textContent = updatedTask;
+
+          // tahrirlanganida status todoga qaytib qolishi uchun
+          const tr = taskName.closest("tr");
+          const statusBtn = tr.querySelector(".status-btn");
+          statusBtn.classList.remove("done");
+          statusBtn.innerText = "Todo";
         } else {
           alert("Please enter a task name!");
         }
@@ -103,4 +109,21 @@ function updateIndices() {
     // Raqamlarni yangilash
     row.querySelector(".task-number").textContent = i + 1;
   });
+}
+
+// Vazifalarni bajarilgan deb belgilash uchun
+function doneTask(event) {
+  const statusBtn = event.target;
+  console.log("Done", event.target);
+  const trElement = event.target.closest("tr");
+  const taskName = trElement.querySelector(".task-name");
+  if (!statusBtn.classList.contains("done")) {
+    statusBtn.classList.add("done");
+    statusBtn.innerText = "Done";
+    taskName.innerHTML = `<del>${taskName.innerText}</del>`;
+  } else {
+    statusBtn.classList.remove("done");
+    statusBtn.innerText = "Todo";
+    taskName.innerHTML = `${taskName.innerText}`;
+  }
 }

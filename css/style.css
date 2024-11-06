@@ -200,7 +200,7 @@ th:nth-child(2) {
   padding: 0;
   font-size: 28px;
   color: #fff;
-  transition: color .3s ease;
+  transition: color 0.3s ease;
 }
 
 .close-btn:hover {
@@ -236,6 +236,22 @@ th:nth-child(2) {
 
 .done-btn:hover {
   color: #256932;
+}
+
+/* status btn */
+.status-btn.done {
+  color: #256931be;
+  border-color: #256932be;
+}
+
+.status-btn.done:hover {
+  color: #256932;
+  border-color: #256932;
+}
+
+.status-btn.done:active {
+  background-color: #256932;
+  color: #fff;
 }
 
 /* tablet da 
