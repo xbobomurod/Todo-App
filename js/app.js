@@ -38,25 +38,46 @@ function displayTask(event) {
 }
 
 // Vazifani DOMga qo'shish funksiyasi
+const TEXT_LIMIT = 20;
+
 function addTaskToDOM(task) {
   const newRow = document.createElement("tr");
   newRow.setAttribute("data-id", task.id);
 
-  // Agar vazifa holati "Done" bo'lsa, vazifa nomi chizilgan bo'ladi
-  const taskNameContent =
-    task.status === "Done" ? `<del>${task.name}</del>` : task.name;
+  const taskNameContent = task.status === "Done" ? `<del>${task.name}</del>` : task.name;
+  const taskShortText = task.name.length > TEXT_LIMIT ? task.name.substring(0, TEXT_LIMIT) + "..." : task.name;
   
   newRow.innerHTML = `  
-            <td class="task-number">${tasksArray.indexOf(task) + 1}</td>  
-            <td class="task-name">${taskNameContent}</td>  
-            <td><button onclick="doneTask(event)" type="button" class="status-btn ${
-              task.status === "Done" ? "done" : ""
-            }">${task.status}</button></td>  
-            <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>  
-            <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
-        `;
+    <td class="task-number">${tasksArray.indexOf(task) + 1}</td>  
+    <td class="task-name" style="cursor: pointer;">
+      <span class="short-text">${taskShortText}</span>
+      <span class="full-text" style="display:none;">${task.name}</span>
+    </td>
+    <td><button onclick="doneTask(event)" type="button" class="status-btn ${task.status === "Done" ? "done" : ""}">${task.status}</button></td>
+    <td><button type="button" class="edit-btn"><i class="fa-solid fa-pen"></i></button></td>
+    <td><button class="remove-btn" type="button"><i class="fa-solid fa-trash-can"></i></button></td>  
+  `;
+
   tbody.appendChild(newRow);
-  updateIndices(); // Qo'shgandan keyin indekslarni yangilash
+  updateIndices();
+  addTaskExpandToggle(newRow);
+}
+
+// text-name ga hodisa ishlov beruvchisini qo'shish funksiyasi
+function addTaskExpandToggle(row) {
+  const taskNameCell = row.querySelector(".task-name");
+  const shortText = taskNameCell.querySelector(".short-text");
+  const fullText = taskNameCell.querySelector(".full-text");
+
+  taskNameCell.addEventListener("click", () => {
+    if (shortText.style.display === "none") {
+      shortText.style.display = "";
+      fullText.style.display = "none";
+    } else {
+      shortText.style.display = "none";
+      fullText.style.display = "";
+    }
+  });
 }
 
 function edit() {
@@ -129,20 +150,43 @@ function doneTask(event) {
   const taskId = Number(trElement.getAttribute("data-id"));
   const task = tasksArray.find((task) => task.id === taskId);
 
+  // Проверка на длину текста
+  const taskShortText =
+    task.name.length > TEXT_LIMIT
+      ? task.name.substring(0, TEXT_LIMIT) + "..."
+      : task.name;
+
   if (!statusBtn.classList.contains("done")) {
+    // Если статус меняется на Done
     statusBtn.classList.add("done");
     statusBtn.innerText = "Done";
-    taskName.innerHTML = `<del>${taskName.innerText}</del>`;
+
+    // Если текст меньше TEXT_LIMIT, не добавляем "..."
+    taskName.querySelector(".short-text").innerHTML =
+      task.name.length > TEXT_LIMIT
+        ? `<del>${task.name.substring(0, TEXT_LIMIT)}...</del>`
+        : `<del>${task.name}</del>`;
+    taskName.querySelector(".full-text").innerHTML = `<del>${task.name}</del>`;
     task.status = "Done";
   } else {
+    // Если статус меняется обратно на Todo
     statusBtn.classList.remove("done");
     statusBtn.innerText = "Todo";
-    taskName.innerHTML = `${task.name}`;
+
+    // Если текст меньше TEXT_LIMIT, не добавляем "..."
+    taskName.querySelector(".short-text").innerHTML =
+      task.name.length > TEXT_LIMIT
+        ? task.name.substring(0, TEXT_LIMIT) + "..."
+        : task.name;
+    taskName.querySelector(".full-text").innerHTML = task.name;
     task.status = "Todo";
   }
 
-  saveTasksToLocalStorage(); // Holat o'zgartirilgandan keyin saqlash
+  addTaskExpandToggle(trElement); // Повторно применяем функцию раскрытия текста после изменения статуса
+
+  saveTasksToLocalStorage(); // Сохраняем изменения в localStorage
 }
+
 
 // Vazifalarni localStorage'ga saqlash funksiyasi
 function saveTasksToLocalStorage() {
